@@ -21,6 +21,7 @@
 *.pyc    binary
 *.pyd    binary
 *.pyo    binary
+*.pyc
 
 # Jupyter notebook
 *.ipynb  text
