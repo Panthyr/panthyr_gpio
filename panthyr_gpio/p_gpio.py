@@ -32,13 +32,19 @@ class p_gpio:
             # TODO: PULLDOWN trows exception:
             # status = ioctl(fd, GPIO_GET_LINEHANDLE_IOCTL, req)
             # OSError: [Errno 22] Invalid argument
+            self.pin.request(pin_configuration)
+
+            # set value if given
+            if self.mode is None:
+                # self.value = self.pin.get_value()  # TODO: doesn't work yet (not even sure if this is possible)
+                pass
+            elif self.mode == 1:
+                self.on()
+            else:
+                self.off()
 
         if self.mode == 'adc':
             raise NotImplementedError('Still need to implement ADC')
-        self.pin.request(pin_configuration)
-
-        if self.mode == 'out' and not self.value:  # current value of pin is not yet known
-            self.value = self.pin.get_value()
 
     def on(self) -> None:
         """Sets ouput pin high"""

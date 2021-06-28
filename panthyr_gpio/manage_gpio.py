@@ -6,7 +6,7 @@ invoke with -h to get help and a list of possible options.
 """
 
 import argparse
-from panthyr_gpio import p_gpio
+from . import p_gpio
 
 DEFAULT_MAPPING = ((3, 19), (3, 18), (2, 12), (2, 6), (0, 8), (0, 9))
 
