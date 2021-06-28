@@ -46,9 +46,9 @@ def get_arguments() -> dict:
                         action='store',
                         dest='mapping',
                         type=tuple,
-                        help='Provide a tuple describing the pin mapping, \
-                            (chip id, offset) for each output, in order. For default: \
-                            {}'.format(DEFAULT_MAPPING))
+                        help=('Provide a tuple describing the pin mapping,'
+                              '(chip id, offset) for each output, in order. For default: '
+                              '{}'.format(DEFAULT_MAPPING)))
     results = parser.parse_args()
     return prep_args_rtn(results)
 
@@ -75,7 +75,7 @@ def prep_args_rtn(results) -> dict:
     for i in rtn['high']:
         if i in rtn['low']:
             rtn['high'].remove(i)
-            print('Output {} set to high as wel as low. Keeping low.'.format(i))
+            print(f'Output {i} set to high as wel as low. Keeping low.')
 
     # check that the user asked for anything at all
     check_rtn = (rtn['setup'], rtn['status'], len(rtn['low']), len(rtn['high']))
