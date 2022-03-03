@@ -1,3 +1,5 @@
-from setuptools import setup, find_packages
+# -*- coding: utf-8 -*-
+from setuptools import find_packages
+from setuptools import setup
 
 setup(name='p_gpio', version='1.0', packages=find_packages())

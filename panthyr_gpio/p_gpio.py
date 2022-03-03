@@ -1,29 +1,38 @@
 #!/usr/bin/python3
-# coding: utf-8
+# -*- coding: utf-8 -*-
+import logging
 
-import gpiod
+import gpiod  # noqa
 
 ALLOWED_MODES = ('out')
+ADC_NOT_IMPLEMENTED = 'ADC not yet implemented.'
 
 
 class p_gpio:
+
+class pGPIO:
+
     def __init__(self, chip, offset, mode=None, value=None):
         self.chip = chip
         self.offset = offset
         if mode and mode not in ALLOWED_MODES:
-            raise ValueError('Mode {} not allowed, should be one of: {}'.format(
-                mode, ALLOWED_MODES))
+            raise ValueError(
+                'Mode {} not allowed, should be one of: {}'.
+                format(mode, ALLOWED_MODES))
         self.mode = mode
         self.value = value
         self._get_pin()
         self._configure_mode()
+        self.log = initialize_logger()
 
     def _get_pin(self) -> None:
+        """Select the pin so we have access to the HW."""
         chip = gpiod.chip(self.chip)
         self.pin = chip.get_line(self.offset)
 
     def _configure_mode(self) -> None:
-        # configure mode
+        """Configure pin mode (ie set to output/adc/...)"""
+
         pin_configuration = gpiod.line_request()
 
         if self.mode == 'out':
@@ -36,7 +45,7 @@ class p_gpio:
 
             # set value if given
             if self.mode is None:
-                # self.value = self.pin.get_value()  # TODO: doesn't work yet (not even sure if this is possible)
+                # self.value = self.pin.get_value()  # TODO doesn't work yet (is this possible??)
                 pass
             elif self.mode == 1:
                 self.on()
@@ -44,26 +53,31 @@ class p_gpio:
                 self.off()
 
         if self.mode == 'adc':
-            raise NotImplementedError('Still need to implement ADC')
+            self.log.exception('ADC not implemented yet')
+            raise ADCNotImplemented
 
     def on(self) -> None:
         """Sets ouput pin high"""
-        if self.mode != 'out':
-            raise Exception('Pin is not output type')
-        self.value = 1
-        self.pin.set_value(1)
+        self._set_pin_value(1)
 
     def off(self) -> None:
         """Sets output pin low"""
-        if self.mode != 'out':
-            raise Exception('Pin is not output type')
-        self.value = 0
-        self.pin.set_value(0)
+        self._set_pin_value(0)
 
-    def update_value(self):
+    def _set_pin_value(self, value: int):
+        if self.mode != 'out':
+            self.log.exception(
+                f'Cannot set pin {self.pin}, not set as output.'
+            )
+            raise Exception('Pin is not set to output')
+        self.log.debug(f'Pin {self.pin} set to {value}')
+        self.value = value
+        self.pin.set_value(value)
+
+    def update_value_from_hw(self):
         if self.mode == 'out':
             self.value = self.pin.get_value()
             return self.value
 
         if self.mode == 'adc':
-            raise NotImplementedError('Still need to implement ADC')
+            raise NotImplementedError()
