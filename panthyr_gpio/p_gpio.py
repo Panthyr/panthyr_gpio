@@ -28,6 +28,7 @@ class ADCNotImplemented(NotImplementedError):
 class pGPIO:
 
     def __init__(self, chip, offset, mode=None, value=None):
+        self.log = initialize_logger()
         self.chip = chip
         self.offset = offset
         if mode and mode not in ALLOWED_MODES:
@@ -38,7 +39,6 @@ class pGPIO:
         self.value = value
         self._get_pin()
         self._configure_mode()
-        self.log = initialize_logger()
 
     def _get_pin(self) -> None:
         """Select the pin so we have access to the HW."""
