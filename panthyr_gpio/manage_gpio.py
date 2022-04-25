@@ -8,16 +8,18 @@ import argparse
 
 from . import p_gpio
 
-DEFAULT_MAPPING = ((3, 19), (3, 18), (2, 12), (2, 6),
-                   (0, 8), (0, 9))
+DEFAULT_MAPPING = (
+    (3, 19), (3, 18), (2, 12), (2, 6),
+    (0, 8), (0, 9),
+)
 
 
 def get_arguments() -> dict:
     """
-    Get (and check) command line arguments. 
+    Get (and check) command line arguments.
     Args:
         none
-    
+
     Returns:
         dict (see prepare_args_rtn)
     """
@@ -28,33 +30,41 @@ def get_arguments() -> dict:
         action='store_true',
         dest='setup',
         default=False,
-        help='Set up/configure the GPIO pins')
-    parser.add_argument('--status',
-                        action='store_true',
-                        dest='status',
-                        default=False,
-                        help='Print current output status')
+        help='Set up/configure the GPIO pins',
+    )
+    parser.add_argument(
+        '--status',
+        action='store_true',
+        dest='status',
+        default=False,
+        help='Print current output status',
+    )
     parser.add_argument(
         '--high',
         action='append',
         dest='high',
         default=[],
-        help='Each output that needs to be set high (1)')
+        help='Each output that needs to be set high (1)',
+    )
     parser.add_argument(
         '--low',
         action='append',
         dest='low',
         default=[],
-        help='Each output that needs to be set low (0)')
+        help='Each output that needs to be set low (0)',
+    )
     parser.add_argument(
         '--mapping',
         action='store',
         dest='mapping',
         type=tuple,
         help=
-        ('Provide a tuple describing the pin mapping,'
-         '(chip id, offset) for each output, in order. For default: '
-         '{}'.format(DEFAULT_MAPPING)))
+        (
+            'Provide a tuple describing the pin mapping,'
+            '(chip id, offset) for each output, in order. For default: '
+            '{}'.format(DEFAULT_MAPPING)
+        ),
+    )
     results = parser.parse_args()
     return prep_args_rtn(results)
 
@@ -82,15 +92,17 @@ def prep_args_rtn(results) -> dict:
         if i in rtn['low']:
             rtn['high'].remove(i)
             print(
-                f'Output {i} set to high as wel as low. Keeping low.'
+                f'Output {i} set to high as wel as low. Keeping low.',
             )
 
     # check that the user asked for anything at all
-    check_rtn = (rtn['setup'], rtn['status'],
-                 len(rtn['low']), len(rtn['high']))
+    check_rtn = (
+        rtn['setup'], rtn['status'],
+        len(rtn['low']), len(rtn['high']),
+    )
     if not any(check_rtn):
         print(
-            'No arguments specified. Use -h or --help for more information.'
+            'No arguments specified. Use -h or --help for more information.',
         )
 
     return rtn
@@ -106,7 +118,7 @@ def sanitize_outputs(input: list) -> list:
                 print(
                     f'ERROR: Value for output ({i}) not valid, '
                     'should be a single integer (range 1-6,\n'
-                    'or a comma delimited list. Ignoring this value and continuing.'
+                    'or a comma delimited list. Ignoring this value and continuing.',
                 )
         else:
             try:
@@ -115,7 +127,8 @@ def sanitize_outputs(input: list) -> list:
                 print(
                     f'ERROR: Value for output ({i}) not valid,'
                     'should be a single integer. (range 1-6).\n'
-                    'Ignoring this value and continuing.')
+                    'Ignoring this value and continuing.',
+                )
     return rtn
 
 
@@ -137,7 +150,7 @@ def init_gpio(pin_descr: tuple, mode='out') -> list:
     """
     Initialize and configure the GPIO pins.
 
-    Args: 
+    Args:
         pin_descr: tuple: consisting of 6 tuples (chip, line/offset), one for each output.
                 ie. for the defaults: ((3,19), (3,18), (2,12), (2,6), (0,8), (0,9))
     Returns:
@@ -160,7 +173,7 @@ if __name__ == '__main__':
         # TODO: doesn't work yet,
         # getting mode from pin that is already initialized is not yet possible
         raise NotImplementedError(
-            'getting mode from pin that is already initialized is not yet possible'
+            'getting mode from pin that is already initialized is not yet possible',
         )
         # outputs = init_gpio(pin_descr, mode = None)
 
@@ -177,5 +190,9 @@ if __name__ == '__main__':
     if args['status']:
         print('|OUTPUT|VALUE|')
         for index, output in enumerate(outputs):
-            print('|{:6}|{:5}|'.format(index + 1,
-                                       output.value))
+            print(
+                '|{:6}|{:5}|'.format(
+                    index + 1,
+                    output.value,
+                ),
+            )

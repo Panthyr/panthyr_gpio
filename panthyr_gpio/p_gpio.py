@@ -15,10 +15,9 @@ def initialize_logger() -> logging.Logger:
         logging.Logger: logger instance
     """
     if __name__ == '__main__':
-        return logging.getLogger('{}'.format(__name__))
+        return logging.getLogger(f'{__name__}')
     else:
-        return logging.getLogger(
-            '__main__.{}'.format(__name__))
+        return logging.getLogger(f'__main__.{__name__}')
 
 
 class ADCNotImplemented(NotImplementedError):
@@ -33,8 +32,8 @@ class pGPIO:
         self.offset = offset
         if mode and mode not in ALLOWED_MODES:
             raise ValueError(
-                'Mode {} not allowed, should be one of: {}'.
-                format(mode, ALLOWED_MODES))
+                f'Mode {mode} not allowed, should be one of: {ALLOWED_MODES}',
+            )
         self.mode = mode
         self.value = value
         self._get_pin()
@@ -83,14 +82,15 @@ class pGPIO:
     def _set_pin_value(self, value: int):
         if self.mode != 'out':
             self.log.exception(
-                f'Cannot set pin {self.pin}, not set as output.'
+                f'Cannot set pin {self.pin}, not set as output.',
             )
-            raise Exception('Pin is not set to output')
-        self.log.debug(f'Pin {self.pin} set to {value}')
+            raise ValueError('Pin is not set to output')
+        self.log.debug('Pin {self.pin} set to {value}')
         self.value = value
         self.pin.set_value(value)
 
     def update_value_from_hw(self):
+        # TODO: implement properly and check functionality
         if self.mode == 'out':
             self.value = self.pin.get_value()
             return self.value
