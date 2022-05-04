@@ -60,8 +60,7 @@ class pGPIO:
 
             # set value if given
             if self.mode is None:
-                # self.value = self.pin.get_value()  # TODO doesn't work yet (is this possible??)
-                pass
+                self.value = self.pin.get_value()
             elif self.mode == 1:
                 self.on()
             else:
@@ -90,10 +89,8 @@ class pGPIO:
         self.pin.set_value(value)
 
     def update_value_from_hw(self):
-        # TODO: implement properly and check functionality
         if self.mode == 'out':
             self.value = self.pin.get_value()
-            return self.value
 
         if self.mode == 'adc':
             raise NotImplementedError()
