@@ -54,12 +54,11 @@ class pGPIO:
                 f'Mode {mode} not allowed, should be one of: {ALLOWED_MODES}',
             )
         self.mode = mode
-        self.value = value
         self._get_pin()
         if self.mode is not None:
             self._configure_mode()
             if self.value is not None:
-                self._set_pin_value(self.value)
+                self._set_pin_value(value)
 
     def _get_pin(self) -> None:
         """Select the pin so we have access to the HW."""
