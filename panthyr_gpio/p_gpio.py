@@ -56,9 +56,9 @@ class pGPIO:
         self.mode = mode
         self.value = value
         self._get_pin()
-        if self.mode:
+        if self.mode is not None:
             self._configure_mode()
-            if self.value:
+            if self.value is not None:
                 self._set_pin_value(self.value)
 
     def _get_pin(self) -> None:
