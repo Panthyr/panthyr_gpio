@@ -11,6 +11,7 @@ Welcome to Panthyr GPIO's documentation!
    :caption: Contents:
 
    modules
+   usage
 
 
 
