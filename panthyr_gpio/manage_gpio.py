@@ -9,8 +9,12 @@ import argparse
 from . import p_gpio
 
 DEFAULT_MAPPING = (
-    (3, 19), (3, 18), (2, 12), (2, 6),
-    (0, 8), (0, 9),
+    (3, 19),
+    (3, 18),
+    (2, 12),
+    (2, 6),
+    (0, 8),
+    (0, 9),
 )
 
 
@@ -97,8 +101,10 @@ def prep_args_rtn(results) -> dict:
 
     # check that the user asked for anything at all
     check_rtn = (
-        rtn['setup'], rtn['status'],
-        len(rtn['low']), len(rtn['high']),
+        rtn['setup'],
+        rtn['status'],
+        len(rtn['low']),
+        len(rtn['high']),
     )
     if not any(check_rtn):
         print(
@@ -127,8 +133,7 @@ def sanitize_outputs(input: list) -> list:
                 print(
                     f'ERROR: Value for output ({i}) not valid,'
                     'should be a single integer. (range 1-6).\n'
-                    'Ignoring this value and continuing.',
-                )
+                    'Ignoring this value and continuing.', )
     return rtn
 
 
@@ -158,7 +163,11 @@ def init_gpio(pin_descr: tuple, mode='out') -> list:
     """
     outputs: list = []
     for chip, offset in pin_descr:
-        pin = p_gpio(chip=chip, offset=offset, mode=mode)
+        pin = p_gpio.pGPIO(
+            chip=chip,
+            offset=offset,
+            mode=mode,
+        )
         outputs.append(pin)
 
     return outputs
@@ -194,5 +203,4 @@ if __name__ == '__main__':
                 '|{:6}|{:5}|'.format(
                     index + 1,
                     output.value,
-                ),
-            )
+                ), )
