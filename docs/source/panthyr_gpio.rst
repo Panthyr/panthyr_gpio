@@ -9,14 +9,6 @@ panthyr\_gpio package
 Submodules
 ----------
 
-panthyr\_gpio.manage\_gpio module
----------------------------------
-
-.. automodule:: panthyr_gpio.manage_gpio
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 panthyr\_gpio.p\_gpio module
 ----------------------------
 
