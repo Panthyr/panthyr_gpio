@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import logging
+from typing import Union
 
 import gpiod  # noqa
 
@@ -27,7 +28,24 @@ class ADCNotImplemented(NotImplementedError):
 
 class pGPIO:
 
-    def __init__(self, chip, offset, mode=None, value=None):
+    def __init__(
+        self,
+        chip: int,
+        offset: int,
+        mode: Union[str, None] = None,
+        value: Union[int, None] = None,
+    ):
+        """Initialize pin.
+
+        Args:
+            chip (int): Chip number
+            offset (int): Pin hardware offset
+            mode (str, optional): one of ALLOWED_MODES (currently only 'out'). Defaults to None.
+            value (int, optional): 0 for low, 1 for high. Defaults to None.
+
+        Raises:
+            ValueError: if given mode is not allowed
+        """
         self.log = initialize_logger()
         self.chip = chip
         self.offset = offset
@@ -36,14 +54,25 @@ class pGPIO:
                 f'Mode {mode} not allowed, should be one of: {ALLOWED_MODES}',
             )
         self.mode = mode
-        self.value = value
         self._get_pin()
-        self._configure_mode()
+        if self.mode is not None:
+            self._configure_mode()
+            if self.value is not None:
+                self._set_pin_value(value)
 
     def _get_pin(self) -> None:
         """Select the pin so we have access to the HW."""
         chip = gpiod.chip(self.chip)
         self.pin = chip.get_line(self.offset)
+
+    def current_value(self) -> Union[int, None]:
+        """Update the current value and return it.
+
+        Returns:
+            int: Current value (0/1 if output or 0-256 for ADC)
+        """
+        self.update_value_from_hw()
+        return self.value
 
     def _configure_mode(self) -> None:
         """Configure pin mode (ie set to output/adc/...)"""
@@ -79,6 +108,14 @@ class pGPIO:
         self._set_pin_value(0)
 
     def _set_pin_value(self, value: int):
+        """Set an output pin to high or low.
+
+        Args:
+            value (int): 0 for off, 1 for on
+
+        Raises:
+            ValueError: if pin is not configured as output
+        """
         if self.mode != 'out':
             self.log.exception(
                 f'Cannot set pin {self.pin}, not set as output.',
@@ -88,7 +125,15 @@ class pGPIO:
         self.value = value
         self.pin.set_value(value)
 
-    def update_value_from_hw(self):
+    def update_value_from_hw(self) -> None:
+        """Get current value from hardware.
+
+        Updates the current status (on/off) if pin is set to OUT.
+        Will contain code to read value on input if pin set to ADC.
+
+        Raises:
+            NotImplementedError: If pin is set to adc
+        """
         if self.mode == 'out':
             self.value = self.pin.get_value()
 
