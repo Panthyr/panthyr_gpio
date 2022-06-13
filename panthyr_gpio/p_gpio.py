@@ -109,7 +109,7 @@ class pGPIO:
                 f'Cannot set pin {self.pin}, not set as output.',
             )
             raise ValueError('Pin is not set to output')
-        self.log.debug('Pin {self.pin} set to {value}')
+        # self.log.debug(f'Pin {self.pin} set to {value}')
         self.value = value
         self.pin.set_value(value)
 
