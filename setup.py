@@ -4,6 +4,6 @@ from setuptools import setup
 
 setup(
     name='p_gpio',
-    version='0.1.0',
+    version='v1.0.0',
     packages=find_packages(),
 )

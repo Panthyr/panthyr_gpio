@@ -9,18 +9,6 @@ ALLOWED_MODES = ('out')
 ADC_NOT_IMPLEMENTED = 'ADC not yet implemented.'
 
 
-def initialize_logger() -> logging.Logger:
-    """Set up logger
-    If the module is ran as a module, name logger accordingly as a sublogger.
-    Returns:
-        logging.Logger: logger instance
-    """
-    if __name__ == '__main__':
-        return logging.getLogger(f'{__name__}')
-    else:
-        return logging.getLogger(f'__main__.{__name__}')
-
-
 class ADCNotImplemented(NotImplementedError):
     """ADC functionality not yet implemented."""
     pass
@@ -46,7 +34,7 @@ class pGPIO:
         Raises:
             ValueError: if given mode is not allowed
         """
-        self.log = initialize_logger()
+        self.log = logging.getLogger(__name__)
         self.chip = chip
         self.offset = offset
         if mode and mode not in ALLOWED_MODES:
@@ -121,7 +109,7 @@ class pGPIO:
                 f'Cannot set pin {self.pin}, not set as output.',
             )
             raise ValueError('Pin is not set to output')
-        self.log.debug('Pin {self.pin} set to {value}')
+        # self.log.debug(f'Pin {self.pin} set to {value}')
         self.value = value
         self.pin.set_value(value)
 
