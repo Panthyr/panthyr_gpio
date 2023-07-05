@@ -24,7 +24,7 @@ def power_up():
         value=1,
     )
     print(
-        f'Output {outp} on chip {chip} offset{offset} is now ON. \n'
+        f'\nOutput {outp} on chip {chip} at offset {offset} is now ON. \n'
         'Type exit or press CTRL+C to switch back off and exit...', )
     try:
         while True:
