@@ -12,6 +12,14 @@ panthyr\_gpio.p\_gpio module
    :undoc-members:
    :show-inheritance:
 
+panthyr\_gpio.test\_pwr module
+------------------------------
+
+.. automodule:: panthyr_gpio.test_pwr
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

@@ -2,7 +2,16 @@
 Panthyr gpio example code
 ===============================
 
+Test from command line:
 
+.. code:: bash
+    > test_pwr
+    Which output (1-6) do you want to power on?
+    > 1
+
+    Output 1 on chip 3 at offset 19 is now ON.
+    Type exit or press CTRL+C to switch back off and exit...
+    >exit
 
 .. code:: python
 
