@@ -36,13 +36,13 @@ def power_up():
 
 
 def _get_output_from_user() -> int:
-    inp: str = input('Which output do you want to toggle? (1-6)')
+    inp: str = input('Which output (1-6) do you want to power on? \n> ')
     try:
         inp_int = int(inp)
         if inp_int not in {1, 2, 3, 4, 5, 6}:
             raise ValueError
     except (TypeError, ValueError):
-        print('Invalid output, can be 1/2/3/4/5')
+        print('Invalid output, can be 1/2/3/4/5/6')
         sys.exit()
     return inp_int
 
