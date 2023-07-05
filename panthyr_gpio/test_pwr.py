@@ -25,8 +25,7 @@ def power_up():
     )
     print(
         f'Output {outp} on chip {chip} offset{offset} is now ON. \n'
-        'Type exit or press CTRL+C to switch back off and exit...',
-    )
+        'Type exit or press CTRL+C to switch back off and exit...', )
     try:
         while True:
             inp = input('>').lower()
@@ -37,8 +36,7 @@ def power_up():
 
 
 def _get_output_from_user() -> int:
-    print('Which output do you want to toggle? (1-6)')
-    inp: str = input('Which output do you want to toggle?')
+    inp: str = input('Which output do you want to toggle? (1-6)')
     try:
         inp_int = int(inp)
         if inp_int not in {1, 2, 3, 4, 5, 6}:
@@ -50,4 +48,4 @@ def _get_output_from_user() -> int:
 
 
 def _convert_to_chip_offset(inp: int) -> tuple:
-    return outputs[inp + 1]
+    return outputs[inp - 1]
