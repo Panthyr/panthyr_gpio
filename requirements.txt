@@ -14,7 +14,7 @@ platformdirs==2.5.1
 pre-commit==2.17.0
 pycodestyle==2.8.0
 pyflakes==2.4.0
-Pygments==2.11.2
+Pygments==2.15.0
 PyYAML==6.0
 rich==10.16.2
 six==1.16.0
