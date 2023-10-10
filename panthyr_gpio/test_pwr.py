@@ -17,14 +17,16 @@ outputs = [
 def power_up():
     outp = _get_output_from_user()
     if outp == 0:
-        gpios= []
+        gpios = []
         for chip, offset in outputs:
-            gpios.append(pGPIO(
-                chip=chip,
-                offset=offset,
-                mode='out',
-                value=1,
-            ))
+            gpios.append(
+                pGPIO(
+                    chip=chip,
+                    offset=offset,
+                    mode='out',
+                    value=1,
+                ),
+            )
         print(
             f'\nAll outputs in {outputs} are now ON. \n'
             'Type exit or press CTRL+C to switch back off and exit...', )

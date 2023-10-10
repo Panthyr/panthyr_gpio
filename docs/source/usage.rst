@@ -6,7 +6,7 @@ Test from command line:
 
 .. code:: bash
     > test_pwr
-    Which output (1-6) do you want to power on?
+    Which output do you want to power on? Choose 1-6 for a specidfic output or 0 for all.
     > 1
 
     Output 1 on chip 3 at offset 19 is now ON.
