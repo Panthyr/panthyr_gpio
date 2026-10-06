@@ -6,6 +6,7 @@ setup(
     name='p_gpio',
     version='v1.1.1',
     packages=find_packages(),
+    install_requires=['gpiod ==1.5.4'],
     entry_points={
         'console_scripts': ['test_pwr = panthyr_gpio.test_pwr:power_up'],
     },
